@@ -3,7 +3,7 @@ using InquirySample.Domain.Exceptions;
 
 namespace InquirySample.Domain.Entities;
 
-public class ProviderAttempt
+public sealed class ProviderAttempt
 {
     public int Id { get; private set; }
     public int InquiryId { get; private set; }
@@ -57,11 +57,43 @@ public class ProviderAttempt
 
 
     #region Public Methods
-    public void SetCompeleteAt(DateTime completedAt) => CompletedAt = completedAt;
-    public void SetRequestStatusToSuccess() => RequestStatus = RequestStatus.Success;
-    public void SetRequestStatusToTechnicalError() => RequestStatus = RequestStatus.TechnicalError;
-    public void SetRequestStatusToTimeout() => RequestStatus = RequestStatus.Timeout;
-    public void SetRequestStatusToBussinessFailed() => RequestStatus = RequestStatus.BussinessFailed;
+
+    public void MarkAsSuccess(DateTime completedAt)
+    {
+        if (RequestStatus != RequestStatus.Pending)
+            throw new DomainException("وضعیت درخواست معتبر نیست");
+
+        CompletedAt = completedAt;
+        RequestStatus = RequestStatus.Success;
+    }
+
+    public void MarkAsTechnicalError(DateTime completedAt)
+    {
+        if (RequestStatus != RequestStatus.Pending)
+            throw new DomainException("وضعیت درخواست معتبر نیست");
+
+        CompletedAt = completedAt;
+        RequestStatus = RequestStatus.TechnicalError;
+    }
+
+    public void MarkAsTimeout(DateTime completedAt)
+    {
+        if (RequestStatus != RequestStatus.Pending)
+            throw new DomainException("وضعیت درخواست معتبر نیست");
+
+        CompletedAt = completedAt;
+        RequestStatus = RequestStatus.Timeout;
+    }
+
+    public void MarkAsBussinessFailed(DateTime completedAt)
+    {
+        if (RequestStatus != RequestStatus.Pending)
+            throw new DomainException("وضعیت درخواست معتبر نیست");
+
+        CompletedAt = completedAt;
+        RequestStatus = RequestStatus.BussinessFailed;
+    }
+
     #endregion
 
 }

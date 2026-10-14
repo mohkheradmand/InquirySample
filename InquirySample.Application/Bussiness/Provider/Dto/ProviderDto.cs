@@ -1,6 +1,6 @@
 ﻿namespace InquirySample.Application.Bussiness.Provider.Dto;
 
-public record ProviderDto(
+public sealed record ProviderDto(
     int Id, 
     string Name, 
     int Priority, 

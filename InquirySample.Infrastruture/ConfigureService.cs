@@ -21,7 +21,7 @@ public static class ConfigureService
                 builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
         }, ServiceLifetime.Scoped);
 
-        services.AddScoped<IApplicationDbContext>(provider =>
+        services.AddScoped<IReadDbContext>(provider =>
             provider.GetRequiredService<ApplicationDbContext>());
 
         services.AddSingleton<IProviderService, ProviderService>();

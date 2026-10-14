@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace InquirySample.Infrastruture.Persistance.Configurations
 {
-    internal class ProductConfigurations : IEntityTypeConfiguration<Product>
+    public sealed class ProductConfigurations : IEntityTypeConfiguration<Product>
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {

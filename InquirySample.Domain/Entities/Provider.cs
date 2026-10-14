@@ -4,7 +4,7 @@
 /// <summary>
 /// هنگام اجرا دیتا تستی اضافه میشه برای همین rich Domain پیاده نشده
 /// </summary>
-public class Provider
+public sealed class Provider
 {
     public int Id { get; set; }
     public required string Name { get; set; }

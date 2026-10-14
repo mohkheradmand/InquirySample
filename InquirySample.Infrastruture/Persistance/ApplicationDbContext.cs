@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace InquirySample.Infrastruture.Persistance;
 
-public class ApplicationDbContext : DbContext, IApplicationDbContext
+public class ApplicationDbContext : DbContext, IReadDbContext, IWriteDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
     {
@@ -16,7 +16,15 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Provider> Providers { get; set; }
     public DbSet<ProviderAttempt> ProviderAttempts { get; set; }
 
-    IQueryable<Provider> IApplicationDbContext.Providers => Providers.AsNoTracking();
+    IQueryable<Provider> IReadDbContext.Providers => Providers.AsNoTracking();
+
+    IQueryable<Product> IReadDbContext.Products => Products.AsNoTracking();
+
+    IQueryable<Inquiry> IReadDbContext.Inquiries => Inquiries.AsNoTracking();
+
+    IQueryable<ProviderAttempt> IReadDbContext.ProviderAttempts => ProviderAttempts.AsNoTracking();
+
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

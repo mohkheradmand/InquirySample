@@ -24,7 +24,7 @@ public class ProviderService : IProviderService
         using var scope = _scopeFactory.CreateScope();
 
         var dbContext = scope.ServiceProvider
-            .GetRequiredService<IApplicationDbContext>();
+            .GetRequiredService<IReadDbContext>();
 
         _providers = await dbContext.Providers.Select(x => x.ToDto()).ToListAsync();
     }

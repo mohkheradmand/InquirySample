@@ -3,7 +3,7 @@ using InquirySample.Domain.Exceptions;
 
 namespace InquirySample.Domain.Entities;
 
-public class Inquiry
+public sealed class Inquiry
 {
     public int Id { get; private set; }
     public int ProductId { get; private set; }
