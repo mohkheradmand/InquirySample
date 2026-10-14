@@ -7,11 +7,11 @@ public class ProviderAttempt
 {
     public int Id { get; private set; }
     public int InquiryId { get; private set; }
-    public Inquiry Inquiry { get; private set; }
+    public Inquiry Inquiry { get; private set; } = null!;
     public int? SharedInquiryId { get; private set; }
     public Inquiry? SharedInquiry { get; private set; }
     public int ProviderId { get; private set; }
-    public Provider Provider { get; private set; }
+    public Provider Provider { get; private set; } = null!;
     public RequestStatus RequestStatus { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime? CompletedAt { get; private set; }
@@ -36,6 +36,8 @@ public class ProviderAttempt
     }
 
 
+
+    #region Private Methods
     private void SetInquiryId(int inquiryId)
     {
         if (inquiryId < 0)
@@ -51,12 +53,15 @@ public class ProviderAttempt
 
        ProviderId = providerId;
     }
+    #endregion
 
 
-
+    #region Public Methods
     public void SetCompeleteAt(DateTime completedAt) => CompletedAt = completedAt;
     public void SetRequestStatusToSuccess() => RequestStatus = RequestStatus.Success;
     public void SetRequestStatusToTechnicalError() => RequestStatus = RequestStatus.TechnicalError;
     public void SetRequestStatusToTimeout() => RequestStatus = RequestStatus.Timeout;
     public void SetRequestStatusToBussinessFailed() => RequestStatus = RequestStatus.BussinessFailed;
+    #endregion
+
 }

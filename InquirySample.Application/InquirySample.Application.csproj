@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\InquirySample.Domain\InquirySample.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Bussiness\Inquiry\Dto\" />
+    <Folder Include="Bussiness\Inquiry\Query\" />
+    <Folder Include="Common\Behaviors\" />
+  </ItemGroup>
+
 </Project>

@@ -6,4 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\InquirySample.Application\InquirySample.Application.csproj" />
+    <ProjectReference Include="..\InquirySample.Infrastruture\InquirySample.Infrastruture.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>
