@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="InquirySample.BuildingBlocks/InquirySample.BuildingBlocks.csproj" />
+  </Folder>
+  <Folder Name="/src/Main/">
+    <Project Path="InquirySample.Application/InquirySample.Application.csproj" />
+    <Project Path="InquirySample.Domain/InquirySample.Domain.csproj" />
+    <Project Path="InquirySample.Infrastruture/InquirySample.Infrastruture.csproj" />
+    <Project Path="InquirySample.WebAPI/InquirySample.WebAPI.csproj" />
+  </Folder>
+  <Folder Name="/src/ProviderA/">
+    <Project Path="InquirySample.ProviderA.WebAPI/InquirySample.ProviderA.WebAPI.csproj" />
+  </Folder>
+  <Folder Name="/src/ProviderB/">
+    <Project Path="InquirySample.ProviderB.WebAPI/InquirySample.ProviderB.WebAPI.csproj" />
+  </Folder>
+  <Folder Name="/test/" />
+</Solution>
