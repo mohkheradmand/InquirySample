@@ -15,11 +15,16 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.13" />
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
+	<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.13" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\InquirySample.Application\InquirySample.Application.csproj" />
     <ProjectReference Include="..\InquirySample.Domain\InquirySample.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Persistance\Scripts\" />
   </ItemGroup>
 
 </Project>

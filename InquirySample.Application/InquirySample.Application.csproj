@@ -11,12 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Bussiness\Inquiry\Dto\" />
-    <Folder Include="Bussiness\Inquiry\Query\" />
-    <Folder Include="Common\Behaviors\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="ErrorOr" Version="2.1.1" />
     <PackageReference Include="MediatR" Version="14.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.13" />
