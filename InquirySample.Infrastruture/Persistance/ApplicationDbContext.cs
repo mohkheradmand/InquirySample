@@ -15,6 +15,7 @@ public class ApplicationDbContext : DbContext, IReadDbContext, IWriteDbContext
     public DbSet<Product> Products { get; set; }
     public DbSet<Provider> Providers { get; set; }
     public DbSet<ProviderAttempt> ProviderAttempts { get; set; }
+    public DbSet<ErrorLog> ErrorLogs { get; set; }
 
     IQueryable<Provider> IReadDbContext.Providers => Providers.AsNoTracking();
 

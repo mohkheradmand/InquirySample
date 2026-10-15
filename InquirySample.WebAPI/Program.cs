@@ -1,3 +1,4 @@
+using InquirySample.Application;
 using InquirySample.Infrastruture;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.InfrastractureServiceProvider(builder.Configuration);
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
