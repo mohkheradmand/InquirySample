@@ -14,12 +14,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.13" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.13" />
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
 	<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.13" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\InquirySample.Application\InquirySample.Application.csproj" />
+    <ProjectReference Include="..\InquirySample.BuildingBlocks\InquirySample.BuildingBlocks.csproj" />
     <ProjectReference Include="..\InquirySample.Domain\InquirySample.Domain.csproj" />
   </ItemGroup>
 

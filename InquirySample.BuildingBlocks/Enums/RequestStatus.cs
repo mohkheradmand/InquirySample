@@ -1,4 +1,4 @@
-﻿namespace InquirySample.Domain.Enums;
+﻿namespace InquirySample.BuildingBlocks.Enums;
 
 public enum RequestStatus
 {

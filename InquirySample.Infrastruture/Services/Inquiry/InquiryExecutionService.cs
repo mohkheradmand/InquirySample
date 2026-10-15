@@ -1,14 +1,15 @@
 ﻿using ErrorOr;
 using InquirySample.Application.Bussiness.Inquiry.Dto;
+using InquirySample.Application.Bussiness.Product.Dto;
 using InquirySample.Application.Common.Interfaces;
-using InquirySample.Domain.Entities;
+using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 
 namespace InquirySample.Infrastruture.Services.Inquiry
 {
     public class InquiryExecutionService(IProviderService providerService) : IInquiryExecutionService
     {
-
-        public Task<ErrorOr<InquiryDto>> ExecuteAsync(Product product, CancellationToken cancellationToken = default)
+        public Task<ErrorOr<InquiryDto>> ExecuteAsync(int inquiryId, ProductDto product, CancellationToken cancellationToken = default)
         {
             var providers = providerService.Providers;
 

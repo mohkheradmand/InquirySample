@@ -1,4 +1,5 @@
-﻿using InquirySample.Domain.Enums;
+﻿using InquirySample.BuildingBlocks.Enums;
+using InquirySample.Domain.Enums;
 using InquirySample.Domain.Exceptions;
 
 namespace InquirySample.Domain.Entities;
@@ -40,7 +41,7 @@ public sealed class ProviderAttempt
     #region Private Methods
     private void SetInquiryId(int inquiryId)
     {
-        if (inquiryId < 0)
+        if (inquiryId <= 0)
             throw new DomainException("شناسه استعلام نباید 0 یا کوچکتر باشد");
 
         InquiryId = inquiryId;
@@ -48,7 +49,7 @@ public sealed class ProviderAttempt
 
     private void SetProviderId(int providerId)
     {
-        if (providerId < 0)
+        if (providerId <= 0)
             throw new DomainException("شناسه سرویس دهنده نباید 0 یا کوچکتر باشد");
 
        ProviderId = providerId;

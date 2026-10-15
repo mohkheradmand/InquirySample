@@ -34,6 +34,8 @@ public static class ConfigureService
             cfg.InstanceName = "InquirySample:";
         });
 
+        services.AddHttpClient();
+
         services.AddSingleton<IProviderService, ProviderService>();
         services.AddHostedService<ProviderServiceInitializer>();
         services.AddScoped<IRedisService, RedisService>();

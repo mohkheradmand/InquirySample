@@ -36,7 +36,7 @@ public sealed class Inquiry
     #region Private Methods
     private void SetProductId(int productId)
     {
-        if (productId < 0)
+        if (productId <= 0)
             throw new DomainException("شناسه کالا نباید 0 یا کوچکتر باشد");
 
         ProductId = productId;
@@ -56,7 +56,7 @@ public sealed class Inquiry
         if (InquiryStatus != InquiryStatus.Pending)
             throw new DomainException("وضعیت درخواست معتبر نیست");
 
-        if (providerId < 0)
+        if (providerId <= 0)
             throw new DomainException("شناسه سرویس دهنده نباید 0 یا کوچکتر باشد");
 
         SetOutput(output);
