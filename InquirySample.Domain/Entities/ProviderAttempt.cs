@@ -36,6 +36,18 @@ public sealed class ProviderAttempt
         return new ProviderAttempt(inquiryId, providerId, createdAt, sharedInquiryId);
     }
 
+    public static ProviderAttempt CreateShared(int inquiryId, int sharedInquiryId, int providerId, RequestStatus status, DateTime createdAt, DateTime completedAt)
+    {
+        if (status == RequestStatus.Pending)
+            throw new DomainException("وضعیت attempt مشترک نمی‌تواند Pending باشد");
+
+        return new ProviderAttempt(inquiryId, providerId, createdAt, sharedInquiryId)
+        {
+            RequestStatus = status,
+            CompletedAt = completedAt
+        };
+    }
+
 
 
     #region Private Methods

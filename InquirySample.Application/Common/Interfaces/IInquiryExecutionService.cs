@@ -5,6 +5,6 @@ namespace InquirySample.Application.Common.Interfaces
 {
     public interface IInquiryExecutionService
     {
-        Task<ErrorOr<InquiryDto>> ExecuteAsync(int inquiryId, ProductDto product, CancellationToken cancellationToken = default);
+        Task<ErrorOr<InquiryDto>> ExecuteAsync(InquiryDto inquiry, ProductDto product, CancellationToken cancellationToken = default);
     }
 }

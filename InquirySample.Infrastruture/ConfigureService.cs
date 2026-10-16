@@ -1,6 +1,7 @@
 ﻿using InquirySample.Application.Common.Interfaces;
 using InquirySample.Infrastructure.Services;
 using InquirySample.Infrastruture.Persistance;
+using InquirySample.Infrastruture.Services.Inquiry;
 using InquirySample.Infrastruture.Services.Provider;
 using InquirySample.Infrastruture.Services.Providerl;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,7 @@ public static class ConfigureService
 
         services.AddHttpClient();
 
+        services.AddSingleton<HsCodeLockProvider>();
         services.AddSingleton<IProviderService, ProviderService>();
         services.AddHostedService<ProviderServiceInitializer>();
         services.AddScoped<IRedisService, RedisService>();

@@ -1,6 +1,4 @@
 ﻿namespace InquirySample.Application.Common.Interfaces;
-
-
 public interface IRedisService
 {
     Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken = default);
