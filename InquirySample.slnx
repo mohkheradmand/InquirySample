@@ -14,5 +14,9 @@
   <Folder Name="/src/ProviderB/">
     <Project Path="InquirySample.ProviderB.WebAPI/InquirySample.ProviderB.WebAPI.csproj" />
   </Folder>
+  <Folder Name="/src/Scripts/">
+    <File Path="InquirySampleDbScript.sql" />
+    <File Path="ProviderDbScript.sql" />
+  </Folder>
   <Folder Name="/test/" />
 </Solution>

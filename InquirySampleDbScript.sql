@@ -7,6 +7,7 @@ GO
 USE [InquirySampleDb];
 GO
 
+
 IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
 BEGIN
     CREATE TABLE [__EFMigrationsHistory] (
@@ -18,6 +19,14 @@ END;
 GO
 
 BEGIN TRANSACTION;
+CREATE TABLE [ErrorLogs] (
+    [Id] int NOT NULL IDENTITY,
+    [Source] nvarchar(100) NOT NULL,
+    [Exception] nvarchar(1000) NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_ErrorLogs] PRIMARY KEY ([Id])
+);
+
 CREATE TABLE [Products] (
     [Id] int NOT NULL IDENTITY,
     [HsCode] nvarchar(20) NOT NULL,
@@ -74,7 +83,7 @@ CREATE INDEX [IX_ProviderAttempts_ProviderId] ON [ProviderAttempts] ([ProviderId
 CREATE INDEX [IX_ProviderAttempts_SharedInquiryId] ON [ProviderAttempts] ([SharedInquiryId]);
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20261014230050_init', N'10.0.13');
+VALUES (N'20261016004608_init', N'10.0.13');
 
 COMMIT;
 GO

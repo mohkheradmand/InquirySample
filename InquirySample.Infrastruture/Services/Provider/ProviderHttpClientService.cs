@@ -8,8 +8,7 @@ using System.Text.Json;
 
 namespace InquirySample.Infrastruture.Services.Provider
 {
-    public sealed class ProviderHttpClient(
-    IHttpClientFactory httpClientFactory) : IProviderHttpClientService
+    public sealed class ProviderHttpClientService(IHttpClientFactory httpClientFactory) : IProviderHttpClientService
     {
         public async Task<ProviderResultDto> ExecuteAsync(ProviderDto provider, string hsCode, CancellationToken cancellationToken = default)
         {

@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Persistance\Scripts\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

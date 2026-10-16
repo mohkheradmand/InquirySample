@@ -41,7 +41,8 @@ public static class ConfigureService
         services.AddSingleton<IProviderService, ProviderService>();
         services.AddHostedService<ProviderServiceInitializer>();
         services.AddScoped<IRedisService, RedisService>();
-
+        services.AddScoped<IInquiryExecutionService, InquiryExecutionService>();
+        services.AddScoped<IProviderHttpClientService, ProviderHttpClientService>();
         return services;
     }
 }
