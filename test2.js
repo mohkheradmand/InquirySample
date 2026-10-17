@@ -3,7 +3,8 @@ import { check, sleep } from 'k6';
 import { SharedArray } from 'k6/data';
 
 const codes = new SharedArray('hs', () =>
-    open('./hscodesSame.txt').split('\n').map(s => s.trim()).filter(Boolean)
+    //open('./hscodesSame.txt').split('\n').map(s => s.trim()).filter(Boolean)
+    open('./hscodes.txt').split('\n').map(s => s.trim()).filter(Boolean)
 );
 
 // 0 = بدون وقفه (استرس)، عدد بیشتر از 0 = ثانیه‌ی فکر کردن بین درخواست‌ها
