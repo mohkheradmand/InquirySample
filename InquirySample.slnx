@@ -18,8 +18,18 @@
     <Project Path="InquirySample.ProviderB.WebAPI/InquirySample.ProviderB.WebAPI.csproj" />
   </Folder>
   <Folder Name="/src/Scripts/">
+    <File Path="InquiriesQuery.sql" />
     <File Path="InquirySampleDbScript.sql" />
+    <File Path="ProviderAttemptsQuery.sql" />
     <File Path="ProviderDbScript.sql" />
   </Folder>
-  <Folder Name="/test/" />
+  <Folder Name="/test/">
+    <Project Path="InquirySample.Application.Test/InquirySample.Application.Test.csproj" Id="48eed025-e9ff-4450-a524-a0c2f5b763a3" />
+  </Folder>
+  <Folder Name="/test/K6/">
+    <File Path="hscodes.txt" />
+    <File Path="hscodesSame.txt" />
+    <File Path="test.js" />
+    <File Path="test2.js" />
+  </Folder>
 </Solution>

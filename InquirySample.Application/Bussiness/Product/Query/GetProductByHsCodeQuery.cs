@@ -18,12 +18,11 @@ public class GetProductByHsCodeQueryHanlder(IReadDbContext readDbContext) : IReq
     public async Task<ErrorOr<ProductDto>> Handle(GetProductByHsCodeQuery request, CancellationToken cancellationToken)
     {
         var product = await readDbContext.Products
-            .Select(x => x.ToDto())
             .FirstOrDefaultAsync(x => x.HsCode == request.HsCode);
 
         if (product is null)
             return Error.NotFound(description: "کالا یافت نشد");
 
-        return product;
+        return product.ToDto();
     }
 }

@@ -68,6 +68,8 @@ namespace InquirySample.Infrastruture.Services.Inquiry
                 .Where(p => p.IsEnabled)
                 .OrderBy(p => p.Priority);
 
+            int lastProviderId = providers.LastOrDefault()?.Id ?? 0;
+
             foreach (var provider in providers)
             {
                 var attempt = ProviderAttempt.Create(inquiry.Id, provider.Id, DateTime.UtcNow, null);
@@ -94,37 +96,60 @@ namespace InquirySample.Infrastruture.Services.Inquiry
                 await writeDbContext.ProviderAttempts.AddAsync(attempt, cancellationToken);
                 await writeDbContext.SaveChangesAsync(cancellationToken);
 
+
+
                 if (result.Status == RequestStatus.Success)
                 {
                     var output = result.Response.Output?.ToString();
 
-                    await redis.WriteAsync(key, new CachedInquiryResult(RequestStatus.Success, output, provider.Id, inquiry.Id),
-                        TimeSpan.FromMilliseconds(500), cancellationToken);
+                    await WriteToRedis(key,
+                        new CachedInquiryResult(RequestStatus.Success, output, provider.Id, inquiry.Id),
+                        cancellationToken);
 
                     return inquiry with { Output = output, ProviderId = provider.Id };
                 }
 
                 if (result.Status == RequestStatus.BussinessFailed)
                 {
-                    await redis.WriteAsync(key, new CachedInquiryResult(RequestStatus.BussinessFailed, null, provider.Id, inquiry.Id),
-                        TimeSpan.FromMilliseconds(500), cancellationToken);
+                    var output = result.Response.Output?.ToString();
 
-                    return Error.Failure(description: "استعلام موفق نبود");
+                    await WriteToRedis(key,
+                        new CachedInquiryResult(RequestStatus.BussinessFailed, output, provider.Id, inquiry.Id),
+                        cancellationToken);
+
+                    if (provider.Id == lastProviderId)
+                        return Error.Failure(description: "استعلام موفق نبود");
                 }
 
                 if (result.Status == RequestStatus.Timeout)
                 {
-                    await redis.WriteAsync(key,
+                    await WriteToRedis(key,
                         new CachedInquiryResult(RequestStatus.Timeout, null, provider.Id, inquiry.Id),
-                        TimeSpan.FromMilliseconds(500), cancellationToken);
+                        cancellationToken);
 
-                    return Error.Failure(description: $"{provider.Name} timed out");
+                    if (provider.Id == lastProviderId)
+                        return Error.Failure(description: $"{provider.Name} timed out");
                 }
 
-                // Timeout یا TechnicalError → حلقه ادامه پیدا می‌کند (Failover)
+                if (result.Status == RequestStatus.TechnicalError)
+                {
+                    await WriteToRedis(key,
+                        new CachedInquiryResult(RequestStatus.TechnicalError, null, provider.Id, inquiry.Id),
+                        cancellationToken);
+
+                    if (provider.Id == lastProviderId)
+                        return Error.Failure(description: $"{provider.Name} TechnicalError");
+                }
+
             }
 
             return Error.NotFound(description: "هیچ سرویس‌دهنده‌ای پاسخ نداد");
+        }
+
+
+        private async Task WriteToRedis(string key, CachedInquiryResult result, CancellationToken cancellationToken = default)
+        {
+            await redis.WriteAsync(key, result, TimeSpan.FromSeconds(1), cancellationToken);
         }
     }
 }

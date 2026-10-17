@@ -1,8 +1,8 @@
 ﻿using InquirySample.BuildingBlocks.Dto;
 using InquirySample.ProviderB.WebAPI.Data;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace InquirySample.ProviderB.WebAPI.Controllers
 {
@@ -10,20 +10,30 @@ namespace InquirySample.ProviderB.WebAPI.Controllers
     [ApiController]
     public class InquiryController(IApplicationDbContext dbContext) : ControllerBase
     {
-        [HttpGet("{hsCode}")]
-        public async Task<IActionResult> Inquiry(string hsCode, CancellationToken cancellationToken)
+        [HttpPost]
+        public async Task<IActionResult> Inquiry([FromBody] ProviderRequestDto request, CancellationToken cancellationToken)
         {
-            var product = await dbContext.Products
-                .AsNoTracking()
-                .FirstOrDefaultAsync(
-                    x => x.HSCode == hsCode,
-                    cancellationToken);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return ValidationProblem(ModelState);
 
-            if (product is null)
-                return NotFound(new ProviderResponseDto(hsCode, "کالا یافت نشد"));
-            
+                var product = await dbContext.Products
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(
+                        x => x.HSCode == request.HsCode,
+                        cancellationToken);
 
-            return Ok(new ProviderResponseDto(hsCode, product.IsLicenseValid.ToString()));
+                if (product is null)
+                    return NotFound(new ProviderResponseDto(request.HsCode, "کالا یافت نشد"));
+
+
+                return Ok(new ProviderResponseDto(request.HsCode, product.IsLicenseValid.ToString()));
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

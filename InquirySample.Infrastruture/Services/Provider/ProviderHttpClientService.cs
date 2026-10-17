@@ -22,45 +22,48 @@ namespace InquirySample.Infrastruture.Services.Provider
             {
                 var url = $"{provider.BaseUrl.TrimEnd('/')}/api/inquiry";
 
-                using var response = await client.PostAsJsonAsync(url, new ProviderRequestDto(hsCode), timeoutCts.Token);
-
-                if (response.StatusCode == HttpStatusCode.RequestTimeout || response.StatusCode == HttpStatusCode.GatewayTimeout)
-                {
-                    return new ProviderResultDto(RequestStatus.Timeout, new ProviderResponseDto(hsCode, null), 
-                                                $"{provider.Name} timed out.");
-                }
+                using var response = await client.PostAsJsonAsync(url, new ProviderRequestDto { HsCode = hsCode }, timeoutCts.Token);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    var type = (int)response.StatusCode >= 500 ? RequestStatus.TechnicalError : RequestStatus.BussinessFailed;
+                    var status = MapFailureStatus(response.StatusCode);
 
-                    return new ProviderResultDto(type, new ProviderResponseDto(hsCode, null),
-                        $"{provider.Name} returned HTTP {(int)response.StatusCode}.");
+                    return Fail(status, hsCode,
+                        status == RequestStatus.Timeout ?
+                            $"{provider.Name} timed out : {response.Content.ToString()}" :
+                            $"{provider.Name} returned HTTP {(int)response.StatusCode} : {response.Content.ToString()}");
                 }
 
                 var result = await response.Content.ReadFromJsonAsync<ProviderResponseDto>(timeoutCts.Token);
 
                 if (result is null || string.IsNullOrWhiteSpace(result.HsCode) || result.Output is null)
-                {
-                    return new ProviderResultDto(RequestStatus.TechnicalError, new ProviderResponseDto(hsCode, null), 
-                                                $"{provider.Name} پاسخ نامعتبر داد");
-                }
+                    return Fail(RequestStatus.TechnicalError, hsCode, $"{provider.Name} پاسخ نامعتبر داد");
+                
 
                 return new ProviderResultDto(RequestStatus.Success,Response: result);
             }
             catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
             {
-                return new ProviderResultDto(RequestStatus.Timeout, new ProviderResponseDto(hsCode, null), 
-                                                $"{provider.Name} timed out.");
+                return Fail(RequestStatus.Timeout, hsCode, $"{provider.Name} timed out");
             }
             catch (HttpRequestException ex)
             {
-                return new ProviderResultDto(RequestStatus.TechnicalError, new ProviderResponseDto(hsCode, null), ex.Message);
+                return Fail(RequestStatus.TechnicalError, hsCode, $"{provider.Name} در دسترس نیست");
             }
             catch (JsonException ex)
             {
-                return new ProviderResultDto(RequestStatus.TechnicalError, new ProviderResponseDto(hsCode, null), ex.Message);
+                return Fail(RequestStatus.TechnicalError, hsCode, $"{provider.Name} پاسخ نامعتبر داد");
             }
         }
+
+        private RequestStatus MapFailureStatus(HttpStatusCode code) => code switch
+        {
+            HttpStatusCode.RequestTimeout or HttpStatusCode.GatewayTimeout => RequestStatus.Timeout,
+            HttpStatusCode.BadRequest => RequestStatus.BussinessFailed,
+            _ => RequestStatus.TechnicalError
+        };
+
+        private ProviderResultDto Fail(RequestStatus status, string hsCode, string message) =>
+            new(status, new ProviderResponseDto(hsCode, null), message);
     }
 }

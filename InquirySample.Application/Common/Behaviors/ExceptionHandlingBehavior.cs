@@ -13,12 +13,7 @@ namespace InquirySample.Application.Common.Behaviors
         {
             try
             {
-                var result = await next(cancellationToken);
-
-                if (result.IsError)
-                    await SetErrorLog(result.Errors!.First().Description, cancellationToken);
-
-                return result;
+                return await next(cancellationToken);
             }
             catch (DomainException ex)
             {

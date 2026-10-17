@@ -98,6 +98,10 @@ SELECT
     RIGHT('000000' + CAST(100000 + N - 1 AS VARCHAR(6)), 6)
 FROM Numbers;
 
+INSERT INTO dbo.Providers([Name], BaseUrl, [Priority], TimeoutMs, IsEnabled)
+VALUES ('ProviderA', 'https://localhost:7021', 1, 2000, 1),
+('ProviderB', 'https://localhost:7022', 2, 2000, 1);
+
 COMMIT;
 GO
 
