@@ -12,7 +12,7 @@ namespace InquirySample.ProviderA.WebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20261016003837_init")]
-    partial class init
+    partial class @init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

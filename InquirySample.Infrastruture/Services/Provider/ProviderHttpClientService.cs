@@ -46,11 +46,11 @@ namespace InquirySample.Infrastruture.Services.Provider
             {
                 return Fail(RequestStatus.Timeout, hsCode, $"{provider.Name} timed out");
             }
-            catch (HttpRequestException ex)
+            catch (HttpRequestException)
             {
                 return Fail(RequestStatus.TechnicalError, hsCode, $"{provider.Name} در دسترس نیست");
             }
-            catch (JsonException ex)
+            catch (JsonException)
             {
                 return Fail(RequestStatus.TechnicalError, hsCode, $"{provider.Name} پاسخ نامعتبر داد");
             }
