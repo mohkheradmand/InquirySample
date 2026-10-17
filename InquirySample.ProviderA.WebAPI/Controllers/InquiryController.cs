@@ -10,7 +10,8 @@ namespace InquirySample.ProviderA.WebAPI.Controllers
     [ApiController]
     public class InquiryController(IApplicationDbContext dbContext) : ControllerBase
     {
-        private readonly Regex _regex = new("^[0-9]{5}[0123578]$");
+        private readonly Regex _regexBadRequest = new("^[0-9]{5}[0123578]$");
+        private readonly Regex _regexTimeout = new("^[0-9]{5}[013578]$");
 
         [HttpPost]
         public async Task<IActionResult> Inquiry([FromBody] ProviderRequestDto request, CancellationToken cancellationToken)
@@ -21,8 +22,11 @@ namespace InquirySample.ProviderA.WebAPI.Controllers
                     return ValidationProblem(ModelState);
 
 
-                if (!_regex.IsMatch(request.HsCode))
+                if (!_regexBadRequest.IsMatch(request.HsCode))
                     return BadRequest("رقم آخر نباید 4 6 9 باشد");
+
+                if(!_regexTimeout.IsMatch(request.HsCode))
+                    await Task.Delay(TimeSpan.FromSeconds(5));
 
                 var product = await dbContext.Products
                     .AsNoTracking()
